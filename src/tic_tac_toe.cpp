@@ -10,13 +10,17 @@
 #include "tic_tac_toe.h"
 
 Game::Game() {
+	this->menu();
+}
 
+// Method to initalize all game variables and clear board
+void Game::init() {
 	// Initialize variables
 	game_over_ = false;
 	num_players = -1;
 	current_player_ = 1;
 	turn_count_ = 0;
-	int result = -1;
+	result_ = -1;
 
 	// Initialize board to zeros noting no moves have been made
 	for (int i=0; i<3; ++i) {
@@ -24,6 +28,8 @@ Game::Game() {
 			board_[i][j] = 0;
 		}
 	}
+
+	std::cout << std::endl << "----------" << std::endl << "Begin Game!" << std::endl << "----------" << std::endl;
 
 	// Input number of user controlled players
 	while (num_players < 0 || num_players > 2) {
@@ -39,36 +45,6 @@ Game::Game() {
 		std::cin >> dummy_str;
 		syms_[i] = dummy_str[0];
 	}
-
-	// Run game
-	while (true) {
-		
-		if (num_players > 0) {
-			this->userInput();
-			this->turnManager();
-			this->printBoard();
-			result = this->analyzeBoard();
-		}
-
-		if (game_over_) {
-			this->gameResult(result);
-			break;
-		}
-
-		if (num_players < 2) {
-			this->cpuMove();
-			result = this->analyzeBoard();
-		}
-
-		if (game_over_) {
-			this->gameResult(result);
-			break;
-		}
-
-
-	}
-
-	
 }
 
 void Game::menu() {
@@ -79,23 +55,56 @@ void Game::menu() {
 	std::cout << "3. Exit Program" << std::endl;
 	std::cout << "4. Super secret mode" << std::endl;
 	std::cout << "Enter your choice here: ";
-	std::cin >> menu_val;
 
 	while (menu_val < 1 || menu_val > 4) {
+		std::cin >> menu_val;
 		if (menu_val == 1) {
 			// TODO
+			std::cout << "Sorry instructions are coming soon! Please enter a valid *different* option from the menu: ";
+			menu_val = 0;
 		} else if (menu_val == 2) {
-			// TODO
+			this->init();
+			this->runGame();
 		} else if (menu_val == 3) {
-			// TODO
+			exit(0);
 		} else if (menu_val == 4) {
 			// TODO
+			std::cout << "Sorry super secret Ultimate mode is coming soon! Please enter a valid *different* option from the menu: ";
+			menu_val = 0;			
 		} else {
 			std::cout << "Please enter a valid option from the menu: ";
-			std::cin >> menu_val;
 		}
 	}
 }
+
+void Game::runGame() {
+	// Run game
+	while (true) {
+		
+		if (num_players > 0) {
+			this->userInput();
+			this->turnManager();
+			this->printBoard();
+			result_ = this->analyzeBoard();
+		}
+
+		if (game_over_) {
+			this->gameResult();
+			this->menu();
+		}
+
+		if (num_players < 2) {
+			this->cpuMove();
+			result_ = this->analyzeBoard();
+		}
+
+		if (game_over_) {
+			this->gameResult();
+			this->menu();
+		}
+	}
+}
+
 
 // This method is designed to keep track of whose turn it is and count how many total turns have been taken.
 inline void Game::turnManager() {
@@ -194,13 +203,13 @@ void Game::printBoard() {
 	std::cout << std::endl;
 }
 
-void Game::gameResult(int result) {
-	if (result == 0) {
+void Game::gameResult() {
+	if (result_ == 0) {
 		std::cout << "The game ended in a tie...Ya basket of cats!" << std::endl;
-	} else if (result == 1) {
-		std::cout << "Player " << syms_[0] << " is the champion!" << std::endl;
+	} else if (result_ == 1) {
+		std::cout << "PLAYER " << syms_[0] << " IS THE CHAMPION!" << std::endl << std::endl;
 	} else {
-		std::cout << "Player " << syms_[1] << " is the champion!" << std::endl;
+		std::cout << "PLAYER " << syms_[1] << " IS THE CHAMPION!" << std::endl << std::endl;
 	}
 }
 
