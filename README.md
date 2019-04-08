@@ -6,5 +6,6 @@ It is currently playable as a player vs. player game on the terminal window!  Si
 
 Future work:   
   1. Add AI for single or zero player games (sims).  This will include an easy mode (random cell selector) and smart mode (impossible to beat AI).  
-  2. Add GUI!
-  3. Add super secret mode (Ultimate tic tac toe)
+  2. Add menu and instruction on how to play.
+  3. Add GUI!
+  4. Add super secret mode (Ultimate tic tac toe)
