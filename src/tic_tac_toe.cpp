@@ -47,6 +47,7 @@ void Game::init() {
 	}
 }
 
+// Game menu method!
 void Game::menu() {
 	int menu_val = 0;
 	std::cout << "--- MENU ---" << std::endl;
@@ -77,6 +78,7 @@ void Game::menu() {
 	}
 }
 
+// The method that runs the game via callbacks
 void Game::runGame() {
 	// Run game
 	while (true) {
