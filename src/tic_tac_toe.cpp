@@ -1,8 +1,8 @@
 
 ///////////////////////////////////////////////////////////////////////////////
-//      Title     : point_in_poly.cpp
-//      Project   : nav_3d
-//      Created   : 1/23/2018
+//      Title     : tic_tac_toe.h
+//      Project   : tic_tac_toe
+//      Created   : 4/5/2019
 //      Author    : Chris Suarez
 //      Platforms : Ubuntu 64-bit
 ///////////////////////////////////////////////////////////////////////////////
@@ -71,6 +71,32 @@ Game::Game() {
 	
 }
 
+void Game::menu() {
+	int menu_val = 0;
+	std::cout << "--- MENU ---" << std::endl;
+	std::cout << "1. How to play" << std::endl;
+	std::cout << "2. Start new game" << std::endl;
+	std::cout << "3. Exit Program" << std::endl;
+	std::cout << "4. Super secret mode" << std::endl;
+	std::cout << "Enter your choice here: ";
+	std::cin >> menu_val;
+
+	while (menu_val < 1 || menu_val > 4) {
+		if (menu_val == 1) {
+			// TODO
+		} else if (menu_val == 2) {
+			// TODO
+		} else if (menu_val == 3) {
+			// TODO
+		} else if (menu_val == 4) {
+			// TODO
+		} else {
+			std::cout << "Please enter a valid option from the menu: ";
+			std::cin >> menu_val;
+		}
+	}
+}
+
 // This method is designed to keep track of whose turn it is and count how many total turns have been taken.
 inline void Game::turnManager() {
 	if (current_player_ == 1) {
@@ -99,7 +125,7 @@ void Game::userInput() {
 
 // CpuMove is the games AI.  There are 2 modes.  Random cell selector (easy mode) and smart mode.
 void Game::cpuMove() {
-
+	// TODO
 }
 
 // Analyze board checks the board for all win conditions and cat's game condition.
@@ -150,6 +176,7 @@ int Game::analyzeBoard() {
 // Print board function simply prints the current game board to the terminal 
 // with 1's mapped to X's, 2's mapped to O's, and anything else is a blank cell
 void Game::printBoard() {
+	std::cout << std::endl;
 	for (int i=0; i<3; ++i) {
 		for (int j=0; j<3; ++j){
 			if (board_[i][j] == 1) {
@@ -163,6 +190,7 @@ void Game::printBoard() {
 		}
 		if (i < 2) std::cout << std::endl << "-----------" << std::endl;
 	}
+	std::cout << std::endl;
 	std::cout << std::endl;
 }
 
