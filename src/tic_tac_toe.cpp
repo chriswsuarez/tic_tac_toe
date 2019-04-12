@@ -43,6 +43,7 @@ void Game::menu() {
 	}
 }
 
+// This simply prints out the instructions of what the game is and how to play it. When complete it'll send it back to the main menu
 void Game::instructions() {
 	std::cout << std::endl << "--- Instructions ---" << std::endl;
 	std::cout << "Welcome to Tic Tac Toe!  Tic Tac Toe is an exciting game that requires the greatest of whits and courage.  (Press enter to continue)";
@@ -94,6 +95,7 @@ void Game::instructions() {
 	std::cin.get();
 	this->menu();
 }
+
 // Method to initalize all game variables and clear board
 void Game::init() {
 	// Initialize variables
@@ -233,12 +235,15 @@ void Game::cpuMove() {
 
 	// If the current cpu player is on smart mode then play smart!
 	if (cpu_diff_[current_player_ - 1] == 2) {
+
+		// We are going to understand the board by using bool arrays for each player and open cells
 		bool ur_cells[9] = {false};
 		bool opp_cells[9] = {false};
 		bool open_cells[9] = {false};
 		bool empty_board = true;
 		bool debug_ai = false;
 
+		// Run through the board and fill up boolean arrays to understand board easily
 		for (int i=0; i<3; ++i) {
 			for (int j=0; j<3; ++j){
 				if (board_[i][j] == 0) {
@@ -253,7 +258,7 @@ void Game::cpuMove() {
 			}
 		}
 
-		// Win moves check
+		// First check to see if we can win the game.  These are the highest priority moves
 		// Row win conditions
 		for (int i=0; i<3; ++i){
 			if (ur_cells[0 + i*3] && ur_cells[1 + i*3] && open_cells[2 + i*3]) {
@@ -324,7 +329,7 @@ void Game::cpuMove() {
 			return;
 		}
 
-		// Prevent lose move check
+		// Now check for moves to block a loss.  Second highest priority moves
 		// Row lose conditions
 		for (int i=0; i<3; ++i){
 			if (opp_cells[0 + i*3] && opp_cells[1 + i*3] && open_cells[2 + i*3]) {
@@ -395,7 +400,8 @@ void Game::cpuMove() {
 			return;
 		}		
 
-		// Free move optimzer
+		// If we can't win or immediately block a loss then we will try to choose smart moves on a more open board.
+		// If the oppnent owns the top left corner then go in the center or cells 2 or 4
 		if (opp_cells[0]) {
 			if (open_cells[4]) {
 				if (debug_ai) std::cout << "OPEN CELL CONDITION 04" << std::endl;
@@ -414,6 +420,7 @@ void Game::cpuMove() {
 			}
 		}
 
+		// If the oppnent owns cell 2 then go in one of the bottom corners
 		if (opp_cells[1]) {
 			if (open_cells[6]) {
 				if (debug_ai) std::cout << "OPEN CELL CONDITION 16" << std::endl;
@@ -427,6 +434,7 @@ void Game::cpuMove() {
 			}
 		}
 
+		// If the oppnent owns cell 3 then go in the center or cell 2 or 6
 		if (opp_cells[2]) {
 			if (open_cells[4]) {
 				if (debug_ai) std::cout << "OPEN CELL CONDITION 24" << std::endl;
@@ -445,6 +453,7 @@ void Game::cpuMove() {
 			}
 		}
 
+		// If the oppnent owns cell 4 then go in one of the right most corners
 		if (opp_cells[3]) {
 			if (open_cells[2]) {
 				if (debug_ai) std::cout << "OPEN CELL CONDITION 32" << std::endl;
@@ -458,6 +467,7 @@ void Game::cpuMove() {
 			}
 		}
 	
+		// If the oppnent owns the center then go in one of the corners
 		if (opp_cells[4]) {
 			if (open_cells[0]) {
 				if (debug_ai) std::cout << "OPEN CELL CONDITION 40" << std::endl;
@@ -481,6 +491,7 @@ void Game::cpuMove() {
 			}
 		}
 
+		// If the oppnent owns cell 6 then go in one of the left corners
 		if (opp_cells[5]) {
 			if (open_cells[0]) {
 				if (debug_ai) std::cout << "OPEN CELL CONDITION 50" << std::endl;
@@ -494,6 +505,7 @@ void Game::cpuMove() {
 			}
 		}
 		
+		// If the oppnent owns cell 7 then go in the center or cell 4 or 8
 		if (opp_cells[6]) {
 			if (open_cells[4]) {
 				if (debug_ai) std::cout << "OPEN CELL CONDITION 64" << std::endl;
@@ -512,6 +524,7 @@ void Game::cpuMove() {
 			}
 		}
 
+		// If the oppnent owns cell 8 then go in one of the top corners
 		if (opp_cells[7]) {
 			if (open_cells[0]) {
 				if (debug_ai) std::cout << "OPEN CELL CONDITION 70" << std::endl;
@@ -525,6 +538,7 @@ void Game::cpuMove() {
 			}
 		}
 
+		// If the oppnent owns cell 9 then go in the center or cell 6 or 8
 		if (opp_cells[8]) {
 			if (open_cells[4]) {
 				if (debug_ai) std::cout << "OPEN CELL CONDITION 84" << std::endl;
@@ -564,7 +578,11 @@ void Game::cpuMove() {
 			if (r == 2)board_[0][2] = current_player_;
 			if (r == 3)board_[2][0] = current_player_;
 			if (r == 4)board_[2][2] = current_player_;
+			return;
 		}
+
+		// If somehow not all conditions have been covered then let's just make a random move.
+		this->randomMove();
 
 	// If the current cpu player is on easy mode then it will simply chose an empty cell at random
 	} else if (cpu_diff_[current_player_ - 1 == 1]) {
@@ -577,6 +595,7 @@ void Game::cpuMove() {
 	}
 }
 
+// This method simply makes a valid random move on the board!
 void Game::randomMove() {
 	int cell = -1;
 	while (cell < 1) {
@@ -586,6 +605,7 @@ void Game::randomMove() {
 
 	board_[(cell-1)/3][(cell-1)%3] = current_player_;
 }
+
 // Analyze board checks the board for all win conditions and cat's game condition.
 // If any of them are met then the game over bool will flag and the winner (0,1,2) will be returned.
 int Game::analyzeBoard() {
@@ -632,7 +652,7 @@ int Game::analyzeBoard() {
 
 
 // Print board function simply prints the current game board to the terminal 
-// with 1's mapped to X's, 2's mapped to O's, and anything else is a blank cell
+// with syms[0] and syms[1] mapped to each players board character
 void Game::printBoard() {
 	std::cout << std::endl;
 	for (int i=0; i<3; ++i) {
@@ -652,13 +672,16 @@ void Game::printBoard() {
 	std::cout << std::endl;
 }
 
+// Reports the results of the game. 0 - cats game, 1 - player 1, 2 - player 2
 void Game::gameResult() {
 	if (result_ == 0) {
 		std::cout << "The game ended in a tie...Ya basket of cats!" << std::endl;
 	} else if (result_ == 1) {
 		std::cout << "PLAYER " << syms_[0] << " IS THE CHAMPION!" << std::endl << std::endl;
-	} else {
+	} else if (result_ == 2) {
 		std::cout << "PLAYER " << syms_[1] << " IS THE CHAMPION!" << std::endl << std::endl;
+	} else {
+		std::cout << "Welp, something weird happened. The winner variable did not report a valid results. Soooooooooooo......yeaaaaaaaa";
 	}
 }
 
