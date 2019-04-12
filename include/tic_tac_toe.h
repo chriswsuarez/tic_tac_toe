@@ -12,20 +12,23 @@
 
 #include <iostream>
 #include <stdlib.h>
+#include <string.h>
 
 class Game {
 public:
 	Game();
 
 private:
-	int board_[3][3], num_players, current_player_, turn_count_, result_;
+	int board_[3][3], num_players, cpu_diff_[2], current_player_, turn_count_, result_;
 	char syms_[2];
 	bool game_over_;
 	void init();
 	void menu();
+	void instructions();
 	void runGame();
 	void userInput();
 	void cpuMove();
+	void randomMove();
 	int analyzeBoard();
 	void printBoard();
 	inline void turnManager();
