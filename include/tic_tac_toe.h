@@ -13,6 +13,8 @@
 #include <iostream>
 #include <stdlib.h>
 #include <string.h>
+#include <typeinfo>
+#include <limits>
 
 class Game {
 public:

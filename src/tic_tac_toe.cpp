@@ -25,7 +25,12 @@ void Game::menu() {
 	std::cout << "Enter your choice here: ";
 
 	while (menu_val < 1 || menu_val > 4) {
-		std::cin >> menu_val;
+		while(!(std::cin >> menu_val)) {
+			std::cout << "Please enter an integer value for the menu option.  ";
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+
 		if (menu_val == 1) {
 			this->instructions();
 		} else if (menu_val == 2) {
@@ -119,7 +124,11 @@ void Game::init() {
 	// Input number of user controlled players
 	while (num_players < 0 || num_players > 2) {
 		std::cout << "Please enter a number of players (0-2):  ";
-		std::cin >> num_players;
+		while(!(std::cin >> num_players)) {
+			std::cout << "Please enter an integer value.  ";
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');	
+		}
 	}
 
 	// Allowing users to set whatever character they want to play with.
@@ -135,11 +144,19 @@ void Game::init() {
 	if (num_players == 0) {
 		while (cpu_diff_[0] < 1 || cpu_diff_[0] > 2) {
 			std::cout << "How smart do you want computer player X to be? Enter (1) for easy mode or (2) for smart mode:  ";
-			std::cin >> cpu_diff_[0];
+			while(!(std::cin >> cpu_diff_[0])) {
+				std::cout << "Please enter an integer value.  ";
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			}
 		}
 		while (cpu_diff_[1] < 1 || cpu_diff_[1] > 2) {
 			std::cout << "How smart do you want computer player O to be? Enter (1) for easy mode or (2) for smart mode:  ";
-			std::cin >> cpu_diff_[1];
+			while(!(std::cin >> cpu_diff_[1])) {
+				std::cout << "Please enter an integer value.  ";
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			}
 		}
 
 		// Assigning X and O to the computer moves but using another dummy string because couldnt figure out the best way to do this
@@ -155,7 +172,11 @@ void Game::init() {
 
 		while (cpu_diff_[1] < 1 || cpu_diff_[0] > 2) {
 			std::cout << "How smart do you want computer player to be? Enter (1) for easy mode or (2) for smart mode:  ";
-			std::cin >> cpu_diff_[1];
+			while(!(std::cin >> cpu_diff_[1])) {
+				std::cout << "Please enter an integer value.  ";
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			}
 		}
 	}
 }
@@ -209,7 +230,11 @@ void Game::userInput() {
 	// Have the user input a cell number between 1 and 9
 	while (cell < 1 || cell > 9) {
 		std::cout << "Player " << syms_[current_player_-1] << " please enter the desired cell to place your move (1-9):  ";
-		std::cin >> cell;
+		while(!(std::cin >> cell)) {
+			std::cout << "Please enter an integer value.  ";
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
 
 		if (cell == 99) {
 			std::cout << "EASTER EGG! Random Move Generated! ...sorry" << std::endl;
